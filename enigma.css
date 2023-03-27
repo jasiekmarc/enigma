@@ -242,12 +242,12 @@ svg {
   z-index: 2;
 }
 
-.key:hover {
+.key:hover, .key[clicked="true"] {
   background: var(--material-color-lime-900);
   cursor: pointer;
 }
 
-.key:active {
+.key:active, .key[clicked="true"] {
   color: var(--material-color-grey-300);
 }
 

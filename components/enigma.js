@@ -1,7 +1,7 @@
 // @ts-check
 
 // @ts-ignore
-import { html, useMemo, useReducer, useState } from "preact";
+import { html, useMemo, useReducer, useState, useEffect } from "preact";
 
 import { Keyboard } from "./keyboard.js";
 import { Lampboard } from "./lampboard.js";
@@ -165,6 +165,8 @@ export function Enigma({}) {
   const [lamp, setLamp] = useState(null);
 
   const [wires, setWires] = useReducer(wiresReducer, undefined, initialWires);
+  
+  const [clicked, setClicked] = useState(null);
 
   const click = (c) => {
     setRotors((rotors) => {
@@ -209,11 +211,44 @@ export function Enigma({}) {
     setWires({ step: "clear" });
   };
 
+  const keydown = (event) => {
+    if (event.repeat) {
+      return
+    }
+    if (event.key.length !== 1) {
+      return
+    }
+    let key = event.key;
+    if (key >= "A" && key <= "Z") {
+      key = key.toLowerCase()
+    }
+    if (key < "a" || key > "z") {
+      return;
+    }
+    click(key);
+    setClicked(key);
+  }
+  
+  const keyup = (_) => {
+    unclick()
+    setClicked(null);
+  }
+
+  useEffect(() => {
+    window.addEventListener("keydown", keydown);
+    window.addEventListener("keyup", keyup)
+    return () => {
+      window.removeEventListener("keydown", keydown);
+      window.removeEventListener("keyup", keyup);
+    };
+  })
+
   return html`
     <div class="enigma">
       <${Lampboard} lamp=${lamp} wires=${wires["lampboard"]} />
       <${Rotorboard} rotors=${rotors} wires=${wires["rotorboard"]} />
       <${Keyboard}
+        clicked=${clicked}
         click=${click}
         unclick=${unclick}
         wires=${wires["keyboard"]}

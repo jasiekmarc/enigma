@@ -6,7 +6,7 @@ import { createRefForDimensions, ord } from "./lib.js";
 import { drawWires } from "./wires.js";
 
 // Constructs an entire Enigma keyboard.
-export function Keyboard({ click, unclick, wires }) {
+export function Keyboard({ click, unclick, wires, clicked }) {
   const [dimensions, setDimensions] = useState({});
 
   // Lay out keys.
@@ -24,6 +24,7 @@ export function Keyboard({ click, unclick, wires }) {
           return html`<button
             class="key"
             ref=${ref}
+            clicked=${clicked == c}
             onmousedown=${() => click(c)}
             onmouseup=${unclick}
           >
