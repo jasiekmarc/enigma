@@ -27,6 +27,8 @@ export function Keyboard({ click, unclick, wires, clicked }) {
             clicked=${clicked == c}
             onmousedown=${() => click(c)}
             onmouseup=${unclick}
+            ontouchstart=${() => click(c)}
+            ontouchend=${unclick}
           >
             ${c.toUpperCase()}
           </button>`;

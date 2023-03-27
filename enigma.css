@@ -309,7 +309,7 @@ svg {
   stroke: var(--material-color-amber-700);
 }
 
-@media (max-width: 800px) {
+@media (max-width: 950px) {
   :root {
     --panels-row: 1;
   }
