@@ -1,0 +1,18 @@
+<script type="importmap">
+  {
+    "imports": {
+      "preact": "https://unpkg.com/htm/preact/standalone.module.js"
+    }
+  }
+</script>
+
+<meta name="viewport" content="width=1000, maximum-scale=6">
+
+<link rel="stylesheet" href="./enigma.css" />
+<script type="module">
+  import { html, render } from "preact";
+  import { Enigma } from "./components/enigma.js";
+
+  // Create your app
+  render(html`<${Enigma} />`, document.body);
+</script>
