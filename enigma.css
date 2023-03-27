@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+:root {
+  --panels-row: 2;
+  --panel-width: 475px;
+  --panel-height: 200px;
+}
+
 body {
   min-height: 100vh;
   display: flex;
@@ -18,7 +24,7 @@ body {
   justify-content: center;
   align-items: center;
   justify-items: center;
-  grid-template-columns: repeat(2, 475px);
+  grid-template-columns: repeat(var(--panels-row), var(--panel-width));
   gap: 50px 20px;
 }
 
@@ -29,8 +35,8 @@ body {
   justify-content: center;
   align-items: center;
   justify-items: center;
-  width: 475px;
-  height: 200px;
+  width: var(--panel-width);
+  height: var(--panel-height);
   padding: 2rem 1rem;
   border-radius: 0.5em;
   position: relative;
@@ -301,4 +307,73 @@ svg {
   stroke-linecap: round;
   stroke-width: 0;
   stroke: var(--material-color-amber-700);
+}
+
+@media (max-width: 800px) {
+  :root {
+    --panels-row: 1;
+  }
+
+  .rotorboard {
+    order: 1;
+  }
+
+  .lampboard {
+    order: 2;
+  }
+
+  .keyboard {
+    order: 3;
+  }
+
+  .plugboard {
+    order: 4;
+  }
+
+  .lampboard .port-bottom-right {
+    left: 0;
+    right: unset;
+  }
+}
+
+@media (min-width: 1300px) {
+  :root {
+    --panel-width: 600px;
+    --panel-height: 270px;
+  }
+
+  .enigma {
+    gap: 75px 50px;
+  }
+
+  .lamp {
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    margin: 10px;
+  }
+
+  .key {
+    height: 50px;
+    width: 50px;
+    font-size: 30px;
+  }
+
+  .socket {
+    top: 20px;
+    width: 20px;
+    height: 20px;
+    margin: 23px;
+  }
+  
+  .socket-label {
+    top: -30px;
+    font-size: 1.5rem;
+  }
+
+  .rotor {
+    width: 45px;
+    margin: 25px;
+  }
 }
