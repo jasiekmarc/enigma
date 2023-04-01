@@ -75,6 +75,7 @@ function Rotor({ /** @type {string} */ position, refs }) {
     transform: `rotateX(-${rotation}deg)`,
   };
   return html`
+    <span class="rotor-marker"></span>
     <div class="rotor">
       <div class="rotor-backface" style=${style}>${letters}</div>
       ${side}

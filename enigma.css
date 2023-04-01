@@ -129,6 +129,29 @@ svg {
   font-family: sans-serif;
 }
 
+.rotor-marker {
+  position: relative;
+  width: 0;
+  height: 0;
+}
+.rotor-marker::after {
+  content: "▬";
+  font-size: 12px;
+  line-height: 12px;
+  height: 17px;
+  width: 0;
+  position: relative;
+  top: -9px;
+  left: 6px;
+  background-color: var(--material-color-red);
+  font-family: sans-serif;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  color: transparent;
+  text-shadow: rgba(13, 13, 13, 0.3) 0px 0.3px 0.3px;
+}
+
 .rotor-side {
   position: absolute;
   background: var(--material-color-blue-grey-200);
