@@ -215,6 +215,9 @@ export function Enigma({}) {
     if (event.repeat) {
       return
     }
+    if (event.ctrlKey || event.metaKey) {
+      return
+    }
     if (event.key.length !== 1) {
       return
     }
