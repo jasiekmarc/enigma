@@ -255,5 +255,9 @@ export function Enigma({}) {
       />
       <${Plugboard} wires=${wires["plugboard"]} switches=${switches} />
     </div>
+    <div class="legend">
+      <p>Press <kbd>A</kbd>-<kbd>Z</kbd> and observe the lamps. Notice the rotor stepping.</p>
+      <p>Hold to see the electric current flow.</p>
+    </div>
   `;
 }

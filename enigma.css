@@ -13,6 +13,7 @@
 body {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -330,6 +331,26 @@ svg {
   stroke-linecap: round;
   stroke-width: 0;
   stroke: var(--material-color-amber-700);
+}
+
+.legend {
+  text-align: center;
+  width: 100%;
+  padding: 1rem 1rem;
+  order: 5;
+  grid-column: 1 / span var(--panels-row);
+  font-family: monospace;
+  font-size: 1em;
+  color: var(--material-color-grey-600);
+}
+
+.legend kbd {
+  padding: 0.1875em 0.475em;
+  font-size: .75em;
+  color: #fff;
+  background-color: var(--material-color-grey-600);
+  border-radius: 0.1rem;
+  vertical-align: middle;
 }
 
 @media (max-width: 950px) {
