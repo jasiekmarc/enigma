@@ -10,11 +10,8 @@
   --panel-height: 200px;
 }
 
-html, body {
-  height: 100%;
-}
-
 body {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
