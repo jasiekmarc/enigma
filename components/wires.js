@@ -47,6 +47,7 @@ export const DEG_MAP = {
 };
 
 const DURATION = 1000;
+const DELAY = (d) =>  DURATION * (d + 1);
 
 function Wires({ pairs }) {
   const paths = pairs.map(({ s, t, delay, type = "", value = "A" }) => {
@@ -76,7 +77,7 @@ function Wires({ pairs }) {
           },
         ],
         {
-          delay: DURATION * (delay + 2),
+          delay: DELAY(delay),
           duration: DURATION * 20,
           iterations: 1,
           fill: "forwards",
@@ -88,7 +89,7 @@ function Wires({ pairs }) {
       offsetPath: `path('${path}')`,
       offsetRotate: "0deg",
       animationName: "followwire",
-      animationDelay: `${DURATION * (delay + 2)}ms`,
+      animationDelay: `${DELAY(delay)}ms`,
       animationDuration: `${DURATION}ms`,
       animationIterationCount: 1,
       animationFillMode: "both",
@@ -96,14 +97,13 @@ function Wires({ pairs }) {
     };
 
     return html`
-      <path class="wire" id="wire-${delay}" ref=${wireRef} d="${path}"></path>
-      <g class="electron" style=${dotStyle}>
-        <circle></circle>
-        <text y=".5rem">${value}</text>
-      </g>
+      <svg width="100%" height="100%">
+        <path class="wire" id="wire-${delay}" ref=${wireRef} d="${path}"></path>
+      </svg>
+      <span class="electron" style=${dotStyle}>${value}</span>
     `;
   });
-  return html` <svg width="100%" height="100%">${paths}</svg> `;
+  return paths;
 }
 
 // Lays out SVG wires as specified by wires, using coordinates stored in

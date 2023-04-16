@@ -99,7 +99,7 @@ svg {
   height: 100%;
   transform-style: preserve-3d;
   perspective: 300px;
-  z-index: 2;
+  z-index: 3;
 }
 
 .rotor-backface {
@@ -182,7 +182,7 @@ svg {
   margin-right: 30px;
   transform-style: preserve-3d;
   perspective: 300px;
-  z-index: 2;
+  z-index: 3;
 }
 
 .reflector-surface {
@@ -236,7 +236,7 @@ svg {
   line-height: 30px;
   text-align: center;
   margin: 10px;
-  z-index: 2;
+  z-index: 3;
 }
 
 .lamp-on {
@@ -265,7 +265,7 @@ svg {
   font-size: 26px;
   text-shadow: var(--material-color-lime-900) 2px 2px 5px;
   margin: 10px 5px;
-  z-index: 2;
+  z-index: 3;
 }
 
 .key:hover, .key[clicked="true"] {
@@ -292,7 +292,7 @@ svg {
   width: 16px;
   height: 16px;
   margin: 18px;
-  z-index: 2;
+  z-index: 3;
 }
 
 .socket-label {
@@ -336,16 +336,24 @@ svg {
 }
 
 
-.electron circle {
-  fill: var(--material-color-amber-800);
-  r: 1.2rem;
+.electron {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.2rem;
+  background-color: var(--material-color-amber-700);
+  color: var(--material-color-grey-50);
+  vertical-align: baseline;
+  text-align: center;
+  font-family: monospace;
+  border-radius: 100%;
+  z-index: 2;
 }
 
-.electron text {
-  font-size: 2rem;
-  font-family: monospace;
-  text-anchor: middle;
-  fill: var(--material-color-grey-50); 
+.plugboard .electron {
+  z-index: 4;
 }
 
 @keyframes followwire {
