@@ -18,7 +18,7 @@ export function curve({
   });
   const [dx, dy] = [t.x - s.x, t.y - s.y];
   const d = Math.hypot(dx, dy);
-  const ctrLen = looseness * (d * (4 - 2 * Math.SQRT2)) / 3;
+  const ctrLen = (looseness * (d * (4 - 2 * Math.SQRT2))) / 3;
   if (degOut === undefined) {
     degOut = Math.atan2(dy, dx);
   } else {
@@ -39,30 +39,33 @@ export const DEG_MAP = {
   ["plug-in-key"]: { degIn: 90, degOut: 270 },
   ["rotor-out"]: { degIn: 270, degOut: 0 },
   ["plug-in-rot"]: { degIn: 0, degOut: 105 },
-  ["plug-switch"]: { degIn: 90, degOut: 90, looseness: .9 },
+  ["plug-switch"]: { degIn: 90, degOut: 90, looseness: 0.9 },
   ["plug-out-rot"]: { degIn: 105, degOut: -45 },
   ["rotor-in"]: { degIn: 0, degOut: 250 },
   ["plug-out-lamp"]: { degIn: 45, degOut: -105 },
   ["lamp-in"]: { degIn: 90, degOut: 205 },
 };
 
+const DURATION = 1000;
+
 function Wires({ pairs }) {
-  const paths = pairs.map(({ s, t, delay, type = "" }) => {
+  const paths = pairs.map(({ s, t, delay, type = "", value = "A" }) => {
     if (!s || !t) {
       return;
     }
+    const path = curve({ s, t, ...DEG_MAP[type] });
     // ref will allow us to query the path length once it is drawn.
-    const ref = useRef(null);
+    const wireRef = useRef(null);
     useLayoutEffect(() => {
-      if (!ref.current) {
+      if (!wireRef.current) {
         return;
       }
-      const len = ref.current.getTotalLength();
+      const len = wireRef.current.getTotalLength();
       const style = {
         strokeDasharray: len,
         strokeWidth: 3,
       };
-      ref.current.animate(
+      wireRef.current.animate(
         [
           { ...style, strokeDashoffset: len },
           { ...style, strokeDashoffset: 0, offset: 0.05 },
@@ -73,18 +76,32 @@ function Wires({ pairs }) {
           },
         ],
         {
-          delay: 500 * (delay + 2),
-          duration: 10000,
+          delay: DURATION * (delay + 2),
+          duration: DURATION * 20,
           iterations: 1,
           fill: "forwards",
         }
       );
     }, []);
-    return html`<path
-      class="wire"
-      ref=${ref}
-      d="${curve({ s, t, ...DEG_MAP[type] })}"
-    ></path>`;
+
+    const dotStyle = {
+      offsetPath: `path('${path}')`,
+      offsetRotate: "0deg",
+      animationName: "followwire",
+      animationDelay: `${DURATION * (delay + 2)}ms`,
+      animationDuration: `${DURATION}ms`,
+      animationIterationCount: 1,
+      animationFillMode: "both",
+      animationTimingFunction: "linear",
+    };
+
+    return html`
+      <path class="wire" id="wire-${delay}" ref=${wireRef} d="${path}"></path>
+      <g class="electron" style=${dotStyle}>
+        <circle></circle>
+        <text y=".5rem">${value}</text>
+      </g>
+    `;
   });
   return html` <svg width="100%" height="100%">${paths}</svg> `;
 }

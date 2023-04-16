@@ -5,7 +5,7 @@ import { html, useMemo, useReducer, useState, useEffect } from "preact";
 
 import { Keyboard } from "./keyboard.js";
 import { Lampboard } from "./lampboard.js";
-import { ord } from "./lib.js";
+import { ord, char } from "./lib.js";
 import { Plugboard } from "./plugboard.js";
 import { Rotorboard } from "./rotors.js";
 
@@ -36,10 +36,11 @@ const initialWires = () => ({
 
 function wiresReducer(state, action) {
   let delay = state.delay;
+  let value = char(action.value);
   switch (action.step) {
     case "key":
       state.keyboard = [
-        { s: action.value, t: "port", delay: delay++, type: "key" },
+        { s: action.value, t: "port", delay: delay++, type: "key", value: value },
       ];
       state.delay = delay;
       state.current = action.value;
@@ -53,6 +54,7 @@ function wiresReducer(state, action) {
             t: state.current,
             delay: delay++,
             type: "plug-in-key",
+            value: char(state.current),
           });
           break;
         case "out":
@@ -61,12 +63,14 @@ function wiresReducer(state, action) {
             t: "out-port",
             delay: delay++,
             type: "rotor-out",
+            value: char(state.current),
           });
           state.plugboard.push({
             s: "portRot",
             t: state.current,
             delay: delay++,
             type: "plug-in-rot",
+            value: char(state.current),
           });
           break;
       }
@@ -77,6 +81,7 @@ function wiresReducer(state, action) {
           t: action.value,
           delay: delay++,
           type: "plug-switch",
+          value: char(state.current),
         });
       }
       // Move out the plugboard.
@@ -87,12 +92,14 @@ function wiresReducer(state, action) {
             t: "portRot",
             delay: delay++,
             type: "plug-out-rot",
+            value: value,
           });
           state.rotorboard.push({
             s: "in-port",
             t: `2-${action.value}`,
             delay: delay++,
             type: "rotor-in",
+            value: value,
           });
           break;
         case "out":
@@ -101,9 +108,10 @@ function wiresReducer(state, action) {
             t: "portOut",
             delay: delay++,
             type: "plug-out-lamp",
+            value: value,
           });
           state.lampboard = [
-            { s: "port", t: action.value, delay: delay++, type: "lamp-in" },
+            { s: "port", t: action.value, delay: delay++, type: "lamp-in", value: value },
           ];
           break;
       }
@@ -129,6 +137,7 @@ function wiresReducer(state, action) {
         t: `${t}-${action.value}`,
         delay: delay++,
         type: "rotor-mid",
+        value: value,
       });
       state.delay = delay;
       state.current = action.value;
